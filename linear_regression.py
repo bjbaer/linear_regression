@@ -4,7 +4,7 @@ import statsmodels.api as sm
 
 loansData = pd.read_csv('https://spark-public.s3.amazonaws.com/dataanalysis/loansData.csv')
 
-g = lambda x: float(x.replace("%", "")) #create lambda function to remove % and convert to float
+g = lambda x: float(x.replace("%", ""))/100 #create lambda function to remove % and convert to float
 loansData['Interest.Rate'] = map(g, loansData['Interest.Rate']) #overwrite old interest rate
 
 h = lambda x: int(x.replace(" months","")) #create lambda function to replace ' months' and turn into integer
@@ -31,3 +31,5 @@ print 'Coefficients: ', f.params[1:3]
 print "Intercept: ", f.params[0]
 print 'P-Values: ', f.pvalues
 print 'R-Squared: ', f.rsquared
+
+loansData.to_csv('loansData_clean.csv', header=True, index=False)
